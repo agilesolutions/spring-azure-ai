@@ -2,10 +2,25 @@ server:
   port: 80
 
 spring:
-  cloud:
-    azure:
-      storage:
-        fileshare:
-          connection-string: "DefaultEndpointsProtocol=https;AccountName=<STORAGE_ACCOUNT_NAME>;AccountKey=<ACCOUNT_KEY>;EndpointSuffix=core.windows.net"
-          share-name: poc-file-share-001
+  ai:
+    openai:
+      api-key: ${AZURE_KEYVAULT_OPENAI_KEY}
 
+azure:
+  application-insights:
+    instrumentation-key: ${AZURE_APP_INSIGHTS_KEY}
+logging:
+  level:
+    root: INFO
+    com.agilesolutions.chatbot: DEBUG
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
