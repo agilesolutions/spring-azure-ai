@@ -1,0 +1,118 @@
+---
+# Source: demo/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo
+  namespace: demo
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: demo
+---
+# Source: demo/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo
+  namespace: demo
+  labels:
+    app: demo
+    version: 1.0.0
+  annotations:
+    sampleannotation: annotationvalue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: demo
+          image: "agilesolutions/k8sdemo:latest"
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 5
+            failureThreshold: 15
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 5
+            failureThreshold: 15
+          lifecycle:
+            preStop:
+              httpGet:
+                path: /unhealthy
+                port: http
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 10
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: podinfo
+              mountPath: /etc/podinfo
+              readOnly: false
+          env:
+            - name: MYSQL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: demo-secret
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: demo-secret
+                  key: password
+            - name: LABEL
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['app']
+      volumes:
+        - name: podinfo
+          downwardAPI:
+            items:
+              - path: "labels"
+                fieldRef:
+                  fieldPath: metadata.labels
+              - path: "annotations"
+                fieldRef:
+                  fieldPath: metadata.annotations
+---
+# Source: demo/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo
+  namespace: demo
+  annotations:
+      kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: demo.127.0.0.1.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: demo
+                port:
+                  number: 80

@@ -1,0 +1,11 @@
+server:
+  port: 80
+
+spring:
+  cloud:
+    azure:
+      storage:
+        fileshare:
+          connection-string: "DefaultEndpointsProtocol=https;AccountName=<STORAGE_ACCOUNT_NAME>;AccountKey=<ACCOUNT_KEY>;EndpointSuffix=core.windows.net"
+          share-name: poc-file-share-001
+

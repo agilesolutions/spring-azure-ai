@@ -1,0 +1,5 @@
+image:
+  repository: agilesolutions/k8sdemo
+  tag: 1.0.0
+
+replicaCount: 1
