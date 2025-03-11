@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.ai.vectorstore.SearchRequest;
@@ -23,34 +24,28 @@ public class ChatService {
     private final ChatClient aiClient;
 
     @Qualifier("simpleVectorStore")
-    private final VectorStore vectorStore;
+    private final VectorStore store;
 
     private final TelemetryClient telemetryClient;
 
-    public String getBom(String version) {
+    public String getBestDeal(String version) {
 
-        BeanOutputConverter<String> outputConverter = new BeanOutputConverter<>(String.class);
+        PromptTemplate pt = new PromptTemplate("""
+            {query}.
+            Which {target} is the most % growth?
+            The 0 element in the prices table is the latest price, while the last element is the oldest price.
+            """);
 
-        String promptString = "list only library name and version for all java spring library version contained by springboot with version {version}{format}";
+        Prompt p = pt.create(
+                Map.of("query", "Find the most growth trends",
+                        "target", "share")
+        );
 
-        PromptTemplate promptTemplate = new PromptTemplate(promptString);
-        promptTemplate.add("version", version);
-        promptTemplate.add("format", outputConverter.getFormat());
-
-        telemetryClient.trackEvent("UserMessage", Map.of("message", promptString), null);
-
-        ChatResponse response = aiClient.call(promptTemplate.create());
-
-        telemetryClient.trackEvent(response.getResult().getOutput().getContent());
-
-        return outputConverter.convert(response.getResult().getOutput().getContent());
+        return aiClient.prompt(p)
+                .advisors(new QuestionAnswerAdvisor(store))
+                .call()
+                .content();
 
     }
 
-    public Bom getBomModel(String version) {
-
-        return aiClient.prompt()
-                .advisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults())=
-                .user()
-    }
 }

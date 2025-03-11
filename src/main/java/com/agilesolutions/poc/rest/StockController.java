@@ -1,7 +1,6 @@
 package com.agilesolutions.poc.rest;
 
 
-import com.agilesolutions.poc.model.Bom;
 import com.agilesolutions.poc.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,20 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("ai")
-public class ChatController {
+@RequestMapping("stocks")
+public class StockController {
 
     private final ChatService chatService;
 
 
-    @GetMapping("/bom")
+    @GetMapping("/best-trend")
     public ResponseEntity<String> getBom(@RequestParam("version") String version) {
-        return ResponseEntity.ok(chatService.getBom(version));
+        return ResponseEntity.ok(chatService.getBestDeal(version));
     }
 
-    @GetMapping("/bomModel")
-    public Bom getModel(@RequestParam("version") String version) {
-        return chatService.getBomModel(version);
-    }
 
 }

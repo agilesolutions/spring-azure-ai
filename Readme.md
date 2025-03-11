@@ -3,6 +3,16 @@ This project is an AI-powered chatbot built with Spring Boot, Spring AI, and Azu
 Thanks to that, the Spring Boot app will retrieve similar documents that best match a user query before sending a request to the AI model. These documents provide context for the query and are sent to the AI model alongside the user’s question.
 It integrates Azure Cognitive Services and Kubernetes to provide intelligent, scalable, and secure chatbot solutions for businesses.
 
+## Why RAG
+- Improved privacy: You can use data that the AI wasn’t trained on, meaning you don’t have to worry about the AI knowing sensitive information beforehand.
+- Better context: The system can pull in relevant information to understand the user’s question more deeply. 
+  - This demo pulls in actual realtime stocks from [TwelveData](https://support.twelvedata.com/)
+  - See [TwelveData API contracts](https://twelvedata.com/docs#core-data)
+  - Stuffs in on a VectorStore
+  - Uses an advisor to push actual context to the prompt to improving the results calculated for GPT static learned data...
+- Higher accuracy: By looking up information, RAG helps reduce mistakes (when AI makes up things) by using real facts.
+- Flexible applications: It can be used for various tasks like answering questions, creating summaries, or powering chatbots.
+
 <img title="Retrieval Augmented Generation (RAG) technique" alt="Alt text" src="/images/rag.png">
 
 ## Features
@@ -139,3 +149,6 @@ Spring Ai provides a VectorStore interface, which provides all the required func
 - [Spring Ai Simple Vector Store](https://wesome.org/spring-ai-simple-vector-store)
 - [Getting Started with Spring AI VectorStore](https://howtodoinjava.com/spring-ai/vector-store-example/)
 - [Using RAG and Vector Store with Spring AI](https://piotrminkowski.com/2025/02/24/using-rag-and-vector-store-with-spring-ai/)
+- [Financial Data that drives your success](https://twelvedata.com/)
+- [What Is Spring AI Advisor](https://www.baeldung.com/spring-ai-advisors#what-is-spring-ai-advisor)
+- [Adding memory to your chatbot using Spring AI](https://medium.com/wearewaes/creating-a-chatbot-with-spring-ai-java-and-openai-ee42ed9f29f8)
