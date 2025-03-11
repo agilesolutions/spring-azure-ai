@@ -1,36 +1,71 @@
 package com.agilesolutions.poc.config;
 
-import com.azure.ai.openai.OpenAIClientBuilder;
-import org.springframework.ai.azure.openai.AzureOpenAiChatModel;
-import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.document.Document;
+import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.reader.TextReader;
+import org.springframework.ai.transformer.splitter.TokenTextSplitter;
+import org.springframework.ai.vectorstore.SimpleVectorStore;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 @Configuration
 public class AIConfig {
 
+    @Value("vectorStore.json")
+    private String vectorStoreFileName;
+
     @Value("${spring.ai.openai.api-key}")
-    private String apiKey;
+    private String openAiKey;
 
-    private static final String DEFAULT_DEPLOYMENT_NAME = "gpt-4o";
+    @Value("classpath:/faq/spring-faq.txt")
+    private Resource springFaq;
 
-    private static final Double DEFAULT_TEMPERATURE = 0.7;
 
-    @Bean("openAiChatModel")
-    ChatModel aiClient(OpenAIClientBuilder openAIClientBuilder) {
-
-        return new AzureOpenAiChatModel(openAIClientBuilder);
-
+    @Bean("openAiChatClient")
+    public ChatClient embeddingModel(ChatClient.Builder chatClientBuilder) {
+        return chatClientBuilder.build();
     }
 
-    @Bean
-    public OpenAIClientBuilderCustomizer responseTimeoutCustomizer() {
-        return openAiClientBuilder -> {
-            HttpClientOptions clientOptions = new HttpClientOptions()
-                    .setResponseTimeout(Duration.ofMinutes(5));
-            openAiClientBuilder.httpClient(HttpClient.createDefault(clientOptions));
-        };
+
+    /**
+     * https://wesome.org/spring-ai-simple-vector-store
+     * @param embeddingModel
+     * @return
+     */
+    @Bean("simpleVectorStore")
+    public VectorStore vectorStore(EmbeddingModel embeddingModel) {
+        SimpleVectorStore simpleVectorStore = SimpleVectorStore.builder(embeddingModel).build();
+        File vectorStoreFile = getVectorStoreFile();
+        if (vectorStoreFile.exists() && vectorStoreFile.length() != 0) {
+            simpleVectorStore.load(vectorStoreFile);
+        } else {
+            TextReader textReader = new TextReader(springFaq);
+            textReader.getCustomMetadata().put("filename", "spring-faq.txt");
+            List<Document> documents = textReader.get();
+            TokenTextSplitter tokenTextSplitter = new TokenTextSplitter();
+            List<Document> splitDocuments = tokenTextSplitter.apply(documents);
+            simpleVectorStore.add(splitDocuments);
+            simpleVectorStore.save(vectorStoreFile);
+        }
+        return simpleVectorStore;
+    }
+
+    private File getVectorStoreFile() {
+        System.out.println("SpringAiApplication.getVectorStoreFile");
+        Path path = Paths.get("src/main/resources/data");
+        var vectorStoreFile = path.toFile().getAbsolutePath() + "\\" + vectorStoreFileName;
+        return new File(vectorStoreFile);
     }
 
 }

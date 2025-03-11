@@ -1,5 +1,9 @@
 # Overview
-This project is an AI-powered chatbot built with Spring Boot, Spring AI, and Azure OpenAI. It integrates Azure Cognitive Services, Cosmos DB, and Kubernetes to provide intelligent, scalable, and secure chatbot solutions for businesses.
+This project is an AI-powered chatbot built with Spring Boot, Spring AI, and Azure OpenAI that uses RAG (Retrieval Augmented Generation) and vector store with Spring AI.
+Thanks to that, the Spring Boot app will retrieve similar documents that best match a user query before sending a request to the AI model. These documents provide context for the query and are sent to the AI model alongside the user’s question.
+It integrates Azure Cognitive Services and Kubernetes to provide intelligent, scalable, and secure chatbot solutions for businesses.
+
+<img title="Retrieval Augmented Generation (RAG) technique" alt="Alt text" src="/images/rag.png">
 
 ## Features
 - AI-Powered Chat - Uses Azure OpenAI for intelligent responses.
@@ -21,7 +25,6 @@ This project is an AI-powered chatbot built with Spring Boot, Spring AI, and Azu
 - Azure Functions (Webhook triggers for AI)
 - Azure App Service (Scalable hosting)
 - Terraform (Infrastructure as Code)
-- Azure DevOps Pipelines (CI/CD automation)
 - Azure DevOps Pipelines (CI/CD automation)
 - Helm & Kubernetes (Optional deployment)
 ## GitHub repository structure, including:
@@ -127,3 +130,12 @@ steps:
 - Azure Functions handle event-driven automation (e.g., analytics, logging).
 - The chatbot API is deployed on Azure App Service or Kubernetes for scalability.
 - CI/CD Pipeline automates builds, tests, and deployments using GitHub Actions, Azure DevOps, and Terraform.
+
+## References
+Spring Ai provides a VectorStore interface, which provides all the required functions to communicate with Vector Databases. When a user query is sent to the AI Model, it retrieves a set of Similar Documents from Vector Databases, these Documents serve as a context for user questions. this technique is also called Retrieval Augmented Generation or RAG.
+- [Vector Databases perform similarity searches and return relevant data](https://wesome.org/spring-ai-vector-database)
+- [Retrieval-Augmented Generation With MongoDB and Spring AI](https://www.mongodb.com/developer/languages/java/retrieval-augmented-generation-spring-ai/)
+- [Provide Additional Context](https://www.baeldung.com/spring-ai-chatclient)
+- [Spring Ai Simple Vector Store](https://wesome.org/spring-ai-simple-vector-store)
+- [Getting Started with Spring AI VectorStore](https://howtodoinjava.com/spring-ai/vector-store-example/)
+- [Using RAG and Vector Store with Spring AI](https://piotrminkowski.com/2025/02/24/using-rag-and-vector-store-with-spring-ai/)
