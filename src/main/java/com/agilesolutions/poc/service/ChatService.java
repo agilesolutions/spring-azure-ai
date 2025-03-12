@@ -1,15 +1,10 @@
 package com.agilesolutions.poc.service;
 
-import com.agilesolutions.poc.model.Bom;
-import com.microsoft.applicationinsights.TelemetryClient;
 import lombok.AllArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
-import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
-import org.springframework.ai.converter.BeanOutputConverter;
-import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,8 +20,6 @@ public class ChatService {
 
     @Qualifier("simpleVectorStore")
     private final VectorStore store;
-
-    private final TelemetryClient telemetryClient;
 
     public String getBestDeal(String version) {
 

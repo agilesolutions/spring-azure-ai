@@ -61,7 +61,7 @@ public class StockService {
                     .bodyToFlux(DailyStockData.class)
                     .onErrorResume( e -> {
                         // Fallback logic in case of an error
-                        System.out.println("Error occurred: " + e.getMessage());
+                        log.error("Error occurred: {}", e.getMessage());
                         return null;
                     })
                     .collectList()

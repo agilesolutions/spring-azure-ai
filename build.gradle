@@ -2,7 +2,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.1'
+    id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -21,7 +21,7 @@ java {
 ext {
     commit = commit()
     branchName = branchName()
-    set('springAiVersion', "1.0.0-M5")
+    set('springAiVersion', "1.0.0-SNAPSHOT")
 }
 
 repositories {
@@ -34,8 +34,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-logging'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
     implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
-    implementation 'org.springframework.ai:spring-ai-mongodb-atlas-store-spring-boot-starter'
+    implementation 'org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter'
+    implementation 'org.springframework.ai:spring-ai-markdown-document-reader'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'com.microsoft.azure:applicationinsights-spring-boot-starter:2.6.4'
     implementation 'com.azure.spring:spring-cloud-azure-starter-keyvault-secrets:5.17.1'

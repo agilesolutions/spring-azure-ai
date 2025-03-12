@@ -1,7 +1,7 @@
 package com.agilesolutions.poc.rest;
 
 
-import com.agilesolutions.poc.config.AIConfig;
+import com.agilesolutions.poc.config.AITestConfig;
 import com.agilesolutions.poc.service.StockService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @WebMvcTest(StockController.class)
-@ContextConfiguration(classes = {AIConfig.class, StockService.class})
+@ContextConfiguration(classes = {AITestConfig.class, StockService.class})
 class OpenAIControllerTest {
 
     @Autowired

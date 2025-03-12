@@ -1,31 +1,29 @@
 package com.agilesolutions.poc.service;
 
 import com.agilesolutions.poc.config.AITestConfig;
-import com.agilesolutions.poc.config.RestTestConfig;
-import com.agilesolutions.poc.model.DailyStockData;
+import com.agilesolutions.poc.loader.MarkdownLoader;
+import com.agilesolutions.poc.loader.StockLoader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringJUnitConfig(classes = {AITestConfig.class, RestTestConfig.class, StockService.class})
-class StockServiceTest {
+@SpringJUnitConfig(classes = {AITestConfig.class, ChatService.class, StockLoader.class})
+class ChatServiceTest {
 
     @Autowired
-    StockService stockService;
+    ChatService chatService;
 
     @Test
     public void givenAvailable_whenRetrieving_thenReturnStocks() throws JsonProcessingException {
 
-        List<DailyStockData> stocks = stockService.loadStocks();
+        String result = chatService.getBestDeal("");
 
         assertAll("verify result",
-                () -> assertTrue(stocks.size() > 0)
+                () -> assertTrue(result.length() > 0)
         );
 
 

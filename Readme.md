@@ -1,19 +1,24 @@
 # Overview
 This project is an AI-powered chatbot built with Spring Boot, Spring AI, and Azure OpenAI that uses RAG (Retrieval Augmented Generation) and vector store with Spring AI.
 Thanks to that, the Spring Boot app will retrieve similar documents that best match a user query before sending a request to the AI model. These documents provide context for the query and are sent to the AI model alongside the user’s question.
+Vector databases, through semantic searches, help with addressing some of the issues with LLMs such as hallucinations.
 It integrates Azure Cognitive Services and Kubernetes to provide intelligent, scalable, and secure chatbot solutions for businesses.
 
 ## Why RAG
+Retrieval Augmented Generation (RAG) is a smart way to improve how AI systems answer questions or create content by combining two steps: retrieving useful information and generating responses. 
+Instead of just relying on what the AI knows, RAG pulls in extra data that helps the system understand the question better and provide more accurate, context-aware answers.
+- ### Benefits and Applications of RAG
 - Improved privacy: You can use data that the AI wasn’t trained on, meaning you don’t have to worry about the AI knowing sensitive information beforehand.
 - Better context: The system can pull in relevant information to understand the user’s question more deeply. 
-  - This demo pulls in actual realtime stocks from [TwelveData](https://support.twelvedata.com/)
-  - See [TwelveData API contracts](https://twelvedata.com/docs#core-data)
-  - Stuffs in on a VectorStore
-  - Uses an advisor to push actual context to the prompt to improving the results calculated for GPT static learned data...
+  - This demo pulls in actual realtime stocks from [TwelveData](https://support.twelvedata.com/), See [TwelveData API contracts](https://twelvedata.com/docs#core-data)
+  - Converted to vectors accordingly stored in a vector Database (VectorStore)
+.  - Uses an advisor to push actual context to the prompt to improving the results calculated for GPT static learned data...
 - Higher accuracy: By looking up information, RAG helps reduce mistakes (when AI makes up things) by using real facts.
 - Flexible applications: It can be used for various tasks like answering questions, creating summaries, or powering chatbots.
 
 <img title="Retrieval Augmented Generation (RAG) technique" alt="Alt text" src="/images/rag.png">
+
+I will set up a Vector Store to implement a RAG example. The Vector Store holds our data along with its vector embeddings, allowing us to perform semantic searches and find the most relevant information for a user’s query.
 
 ## Features
 - AI-Powered Chat - Uses Azure OpenAI for intelligent responses.
@@ -143,6 +148,7 @@ steps:
 
 ## References
 Spring Ai provides a VectorStore interface, which provides all the required functions to communicate with Vector Databases. When a user query is sent to the AI Model, it retrieves a set of Similar Documents from Vector Databases, these Documents serve as a context for user questions. this technique is also called Retrieval Augmented Generation or RAG.
+- [Best post on RAG](https://itnext.io/part-4-chatting-about-company-documents-using-rag-and-spring-ai-ca030132d67d)
 - [Vector Databases perform similarity searches and return relevant data](https://wesome.org/spring-ai-vector-database)
 - [Retrieval-Augmented Generation With MongoDB and Spring AI](https://www.mongodb.com/developer/languages/java/retrieval-augmented-generation-spring-ai/)
 - [Provide Additional Context](https://www.baeldung.com/spring-ai-chatclient)

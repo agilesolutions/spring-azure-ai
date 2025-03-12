@@ -3,8 +3,14 @@ server:
 
 spring:
   ai:
+    chat:
+      client:
+        enabled: false
     openai:
       api-key: "demo"
+      embedding:
+        options:
+          model: text-embedding-3-small
 
 azure:
   application-insights:
