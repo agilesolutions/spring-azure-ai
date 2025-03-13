@@ -6,6 +6,8 @@ import com.agilesolutions.poc.model.DailyStockData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
@@ -13,7 +15,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringJUnitConfig(classes = {AITestConfig.class, RestTestConfig.class, StockService.class})
+@SpringJUnitConfig(classes = {AITestConfig.class, RestTestConfig.class, StockService.class}, initializers = {ConfigDataApplicationContextInitializer.class})
+@TestPropertySource(properties = { "spring.config.location=classpath:application.yaml" })
 class StockServiceTest {
 
     @Autowired

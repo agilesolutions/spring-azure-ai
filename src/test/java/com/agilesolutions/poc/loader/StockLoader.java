@@ -39,12 +39,12 @@ public class StockLoader implements InitializingBean  {
         for (String company : companies) {
             StockData data = restTemplate.getForObject("https://api.twelvedata.com/time_series?symbol={0}&interval=1min&apikey=demo&source=docs",
                     StockData.class,
-                    company,
-                    apiKey);
+                    company);
             if (data != null && data.getValues() != null) {
                 var list = data.getValues().stream().map(DailyStockData::getClose).toList();
                 var doc = Document.builder()
                         .id(company)
+                        .metadata("company", company)
                         .text(mapper.writeValueAsString(new Stock(company, list)))
                         .build();
                 store.add(List.of(doc));

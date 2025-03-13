@@ -37,6 +37,7 @@ dependencies {
     implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
     implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
     implementation 'org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter'
+    implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter'
     implementation 'org.springframework.ai:spring-ai-markdown-document-reader'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'com.microsoft.azure:applicationinsights-spring-boot-starter:2.6.4'

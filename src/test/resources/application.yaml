@@ -3,11 +3,20 @@ server:
 
 spring:
   ai:
+    ollama:
+      chat:
+        options:
+          model: llama3.3
+      embedding:
+        options:
+          model: nomic-embed-text
+      init:
+        pull-model-strategy: when_missing
     chat:
       client:
         enabled: false
     openai:
-      api-key: "demo"
+      api-key: demo
       embedding:
         options:
           model: text-embedding-3-small

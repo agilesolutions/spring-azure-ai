@@ -5,6 +5,8 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
+import org.springframework.ai.ollama.OllamaEmbeddingModel;
+import org.springframework.ai.ollama.api.OllamaApi;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiEmbeddingModel;
 import org.springframework.ai.openai.api.OpenAiApi;
@@ -34,7 +36,8 @@ public class AITestConfig {
     @Bean("simpleVectorStore")
     public VectorStore vectorStore() {
         OpenAiApi openAiApi = new OpenAiApi.Builder().apiKey(openAiKey).build();
-        return SimpleVectorStore.builder(new OpenAiEmbeddingModel(openAiApi)).build();
+//        return SimpleVectorStore.builder(new OpenAiEmbeddingModel(openAiApi)).build();
+        return SimpleVectorStore.builder(OllamaEmbeddingModel.builder().ollamaApi(new OllamaApi()).build()).build();
     }
 
     /**
