@@ -4,21 +4,21 @@ server:
 spring:
   ai:
     mistralai:
-      api-key:
+      api-key: b06684e5-d7b4-4647-8bde-7d3721fecf2b
     vectorstore:
+      chroma:
+        initialize-schema: true
       pinecone:
         apiKey: demo
         index-name: spring-ai
     ollama:
-      base-url: http://localhost:11434
-      chat:
-        options:
-          model: llama2
       embedding:
         options:
           model: nomic-embed-text
       init:
-        pull-model-strategy: when_missing
+        chat:
+          include: false
+        pull-model-strategy: WHEN_MISSING
     chat:
       client:
         enabled: false

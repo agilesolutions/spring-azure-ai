@@ -40,18 +40,24 @@ dependencies {
     implementation 'org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter'
     implementation 'org.springframework.ai:spring-ai-pinecone-store-spring-boot-starter'
     implementation 'org.springframework.ai:spring-ai-chroma-store-spring-boot-starter'
-    implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter'
     // readers
     implementation 'org.springframework.ai:spring-ai-markdown-document-reader'
     // models
     implementation 'org.springframework.ai:spring-ai-mistral-ai-spring-boot-starter'
+    implementation 'org.springframework.ai:spring-ai-watsonx-ai-spring-boot-starter'
+    implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter'
+
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'com.microsoft.azure:applicationinsights-spring-boot-starter:2.6.4'
     implementation 'com.azure.spring:spring-cloud-azure-starter-keyvault-secrets:5.17.1'
     implementation 'org.slf4j:slf4j-api:2.0.13'
     implementation 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    // tests
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.ai:spring-ai-spring-boot-testcontainers'
+    testImplementation "org.testcontainers:chromadb:1.20.0"
+    testImplementation 'org.testcontainers:ollama:1.20.0'
 }
 
 dependencyManagement {
