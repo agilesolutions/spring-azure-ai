@@ -3,10 +3,17 @@ server:
 
 spring:
   ai:
+    mistralai:
+      api-key:
+    vectorstore:
+      pinecone:
+        apiKey: demo
+        index-name: spring-ai
     ollama:
+      base-url: http://localhost:11434
       chat:
         options:
-          model: llama3.3
+          model: llama2
       embedding:
         options:
           model: nomic-embed-text

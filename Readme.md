@@ -146,6 +146,18 @@ steps:
 - The chatbot API is deployed on Azure App Service or Kubernetes for scalability.
 - CI/CD Pipeline automates builds, tests, and deployments using GitHub Actions, Azure DevOps, and Terraform.
 
+## start ollama locally
+- docker compose -f docker-compose.yml
+- docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+- docker logs -f ollama
+- docker exec -ti ollama ollama run llama2
+- Ask some question: >>>> who is the current PM in Netherlands
+- curl -X POST http://localhost:11434/api/generate -d '{ "model": "llama2","prompt":"List down 5 best java frameworks"
+
+## start PGvector localls
+- docker run -it --rm --name postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres ankane/pgvector
+- 
+
 ## References
 Spring Ai provides a VectorStore interface, which provides all the required functions to communicate with Vector Databases. When a user query is sent to the AI Model, it retrieves a set of Similar Documents from Vector Databases, these Documents serve as a context for user questions. this technique is also called Retrieval Augmented Generation or RAG.
 - [Best post on RAG](https://itnext.io/part-4-chatting-about-company-documents-using-rag-and-spring-ai-ca030132d67d)

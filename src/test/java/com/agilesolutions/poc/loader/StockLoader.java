@@ -6,6 +6,7 @@ import com.agilesolutions.poc.model.StockData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class StockLoader implements InitializingBean  {
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
-    @Qualifier("simpleVectorStore")
+    @Qualifier("pineconeVectorStore")
     private VectorStore store;
 
     @Value("${spring.ai.openai.api-key:demo")
@@ -47,7 +48,7 @@ public class StockLoader implements InitializingBean  {
                         .metadata("company", company)
                         .text(mapper.writeValueAsString(new Stock(company, list)))
                         .build();
-                store.add(List.of(doc));
+                store.add(new TokenTextSplitter().split(List.of(doc)));
             }
         }
     }

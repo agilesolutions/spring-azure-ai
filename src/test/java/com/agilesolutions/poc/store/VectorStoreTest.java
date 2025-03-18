@@ -22,7 +22,7 @@ public class VectorStoreTest {
 
     private static final int MAX_RESULTS = 2;
 
-    @Qualifier("simpleVectorStore")
+    @Qualifier("pineconeVectorStore")
     VectorStore store;
 
 
