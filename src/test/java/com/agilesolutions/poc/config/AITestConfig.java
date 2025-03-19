@@ -96,6 +96,8 @@ public class AITestConfig {
     public VectorStore pineconeVectorStore(MistralAiApi mistralAiApi) {
         return PineconeVectorStore.builder(new MistralAiEmbeddingModel(mistralAiApi))
                 .apiKey(pineconeApiKey)
+                .projectId("")
+                .environment("")
                 .indexName(pineconeIndexName)
                 .build();
     }

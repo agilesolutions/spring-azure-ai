@@ -1,6 +1,7 @@
 package com.agilesolutions.poc.store;
 
 import com.agilesolutions.poc.config.ChromaDBConfiguration;
+import com.agilesolutions.poc.docker.BaseIntegrationTest;
 import com.agilesolutions.poc.loader.ChromaDBLoader;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -18,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig(classes = {ChromaDBConfiguration.class, ChromaDBLoader.class}, initializers = {ConfigDataApplicationContextInitializer.class})
 @TestPropertySource(properties = { "spring.config.location=classpath:application.yaml" })
-public class ChromaDBTest {
+public class ChromaDBTest extends BaseIntegrationTest {
 
     private static final int MAX_RESULTS = 2;
 
