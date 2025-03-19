@@ -26,12 +26,8 @@ public class StockLoader implements InitializingBean  {
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
-    @Qualifier("pineconeVectorStore")
+    @Qualifier("azureVectorStore")
     private VectorStore store;
-
-    @Value("${spring.ai.openai.api-key:demo")
-    String apiKey;
-
 
     @Override
     public void afterPropertiesSet() throws Exception {
