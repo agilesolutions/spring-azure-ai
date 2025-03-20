@@ -154,9 +154,10 @@ steps:
 - Ask some question: >>>> who is the current PM in Netherlands
 - curl -X POST http://localhost:11434/api/generate -d '{ "model": "llama2","prompt":"List down 5 best java frameworks"
 
-## start PGvector localls
-- docker run -it --rm --name postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres ankane/pgvector
-- 
+## Evalutation testing
+Evaluating the generated content to ensure the AI model has not produced a hallucinated response
+- RelevancyEvaluator: JUnit test that performs a RAG query over a Twelvedata share document loaded into a Vector Store and then evaluates if the response is relevant to the user text
+- FactCheckingEvaluator: Junit tests to detect and reduce hallucinations in AI outputs by verifying if a given statement (claim) is logically supported by the provided context (document).
 
 ## References
 Spring Ai provides a VectorStore interface, which provides all the required functions to communicate with Vector Databases. When a user query is sent to the AI Model, it retrieves a set of Similar Documents from Vector Databases, these Documents serve as a context for user questions. this technique is also called Retrieval Augmented Generation or RAG.

@@ -2,6 +2,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   name                = local.cluster_name
   location            = var.resoure_group_location
   resource_group_name = local.rg_name
+  kubernetes_version  = data.azurerm_kubernetes_service_versions.current.latest_version
   dns_prefix          = "ai"
   default_node_pool {
     name       = "default"
@@ -10,6 +11,16 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 # Identity (System Assigned or Service Principal)
   identity { type = "SystemAssigned" }
+
+
+# RBAC and Azure AD Integration Block
+role_based_access_control {
+  enabled = true
+  azure_active_directory {
+    managed                = true
+    admin_group_object_ids = [azuread_group.aks_administrators.id]
+  }
+}  
 
   # Network Profile
   network_profile {
