@@ -1,6 +1,7 @@
 package com.agilesolutions.poc.rest;
 
 
+import com.agilesolutions.poc.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class StockController {
 
     @GetMapping("/best-trend")
     public ResponseEntity<String> getBom(@RequestParam("version") String version) {
-        return ResponseEntity.ok(chatService.getBestDeal(version));
+        return ResponseEntity.ok(chatService.getBestDeal());
     }
 
 
