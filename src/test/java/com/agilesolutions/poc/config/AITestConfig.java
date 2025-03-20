@@ -1,40 +1,35 @@
 package com.agilesolutions.poc.config;
 
-import com.azure.core.credential.AzureKeyCredential;
-import com.azure.search.documents.indexes.SearchIndexClient;
-import com.azure.search.documents.indexes.SearchIndexClientBuilder;
-import org.springframework.ai.embedding.EmbeddingModel;
-import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.ai.vectorstore.azure.AzureVectorStore;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
+import org.testcontainers.chromadb.ChromaDBContainer;
+import org.testcontainers.ollama.OllamaContainer;
 
 @Configuration
 public class AITestConfig {
 
+    private static final String OLLAMA_BASE_URL = "localhost:11434";
 
+    /**
+     * ChromaDB container for vector storage and semantic search operations.
+     */
     @Bean
-    public SearchIndexClient searchIndexClient() {
-        return new SearchIndexClientBuilder().endpoint(System.getenv("AZURE_AI_SEARCH_ENDPOINT"))
-                .credential(new AzureKeyCredential(System.getenv("AZURE_AI_SEARCH_API_KEY")))
-                .buildClient();
+    @ServiceConnection
+    public ChromaDBContainer chromaDB() {
+        return new ChromaDBContainer("chromadb/chroma:0.5.20");
     }
 
-    @Bean("azureVectorStore")
-    public VectorStore azureVectorStore(SearchIndexClient searchIndexClient, EmbeddingModel embeddingModel) {
-        AzureVectorStore.builder(searchIndexClient, embeddingModel)
-                .initializeSchema(true)
-                // Define the metadata fields to be used
-                // in the similarity search filters.
-                .filterMetadataFields(List.of(AzureVectorStore.MetadataField.text("country"), AzureVectorStore.MetadataField.int64("year"),
-                        AzureVectorStore.MetadataField.date("activationDate")))
-                .defaultTopK(5)
-                .defaultSimilarityThreshold(0.7)
-                .indexName("spring-ai-document-index")
-                .build();
+    /**
+     * Ollama container for running embedding model to convert plaintext data to
+     * vector representation.
+     */
+    @Bean
+    @ServiceConnection
+    public OllamaContainer ollama() {
+        return new OllamaContainer("ollama/ollama:0.3.12");
     }
+
 
 
 }

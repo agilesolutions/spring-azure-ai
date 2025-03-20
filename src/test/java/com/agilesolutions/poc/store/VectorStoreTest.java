@@ -1,6 +1,7 @@
 package com.agilesolutions.poc.store;
 
 import com.agilesolutions.poc.config.AITestConfig;
+import com.agilesolutions.poc.docker.BaseIntegrationTest;
 import com.agilesolutions.poc.loader.StockLoader;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -18,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig(classes = {AITestConfig.class, StockLoader.class}, initializers = {ConfigDataApplicationContextInitializer.class})
 @TestPropertySource(properties = { "spring.config.location=classpath:application.yaml" })
-public class VectorStoreTest {
+public class VectorStoreTest extends BaseIntegrationTest {
 
     private static final int MAX_RESULTS = 2;
 
@@ -40,7 +41,7 @@ public class VectorStoreTest {
         assertThat(documents)
                 .hasSizeLessThanOrEqualTo(MAX_RESULTS)
                 .allSatisfy(document -> {
-                    String title = String.valueOf(document.getMetadata().get("title"));
+                    String title = String.valueOf(document.getMetadata().get("company"));
                     assertThat(title)
                             .isNotBlank();
                 });
