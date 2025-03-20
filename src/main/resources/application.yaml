@@ -1,12 +1,14 @@
 server:
   port: 80
 
-spring:
-  ai:
-    openai:
-      api-key: "demo"
-
 azure:
+  openai:
+    api:
+      key: <COPY KEY FROM AZURE PORTAL>
+      endpoint: https://myendpoint.openai.azure.com/
+      deployment:
+        model:
+          id: gpt-40
   application-insights:
     instrumentation-key: ${AZURE_APP_INSIGHTS_KEY}
 logging:

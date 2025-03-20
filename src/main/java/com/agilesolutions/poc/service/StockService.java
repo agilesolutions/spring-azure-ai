@@ -21,16 +21,15 @@ import java.util.List;
 @Slf4j
 public class StockService {
 
-    @Value("${STOCK_API_KEY:DEMO}")
-    private String apiKey;
-
     private final ObjectMapper mapper = new ObjectMapper();
 
-    @Qualifier("simpleVectorStore")
     private final VectorStore store;
 
-    @Qualifier("stockClient")
+    @Qualifier("twelveDataClient")
     private final WebClient webClient;
+
+    @Value("${STOCK_API_KEY:DEMO}")
+    private String apiKey;
 
     /**
      * see https://support.twelvedata.com/en/articles/5335783-trial
@@ -39,7 +38,7 @@ public class StockService {
      * @return
      * @throws JsonProcessingException
      */
-    public List<DailyStockData> loadStocks() throws JsonProcessingException {
+    public void loadStocks() throws JsonProcessingException {
 
         final List<String> companies = List.of("AAPL", "MSFT", "GOOG", "AMZN", "META", "NVDA");
 
@@ -50,8 +49,7 @@ public class StockService {
                                 .get()
                     //https://api.twelvedata.com/time_series?symbol=AAPL&interval=1min&apikey=demo&source=docs
                     .uri(builder -> builder.path("/time_series").queryParam("symbol",company).queryParam("apikey",apiKey).build())
-                    //.headers(h -> h.setBearerAuth(apiKey))
-                    .header("Authorization", "Bearer " + apiKey)
+                    .headers(h -> h.setBearerAuth(apiKey))
                     .retrieve()
                     .bodyToFlux(DailyStockData.class)
                     .onErrorResume( e -> {
@@ -72,8 +70,6 @@ public class StockService {
                 log.info("Document added: {}", company);
             }
         }
-
-        return stocks;
 
     }
 }
