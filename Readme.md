@@ -5,8 +5,13 @@ Vector databases, through semantic searches, help with addressing some of the is
 It integrates Azure Cognitive Services and Kubernetes to provide intelligent, scalable, and secure chatbot solutions for businesses.
 
 ## Why RAG
+Large language models (LLMs) like ChatGPT are trained on public internet data that was available at the point in time when they were trained. They can answer questions related to the data they were trained on.
 Retrieval Augmented Generation (RAG) is a smart way to improve how AI systems answer questions or create content by combining two steps: retrieving useful information and generating responses. 
 Instead of just relying on what the AI knows, RAG pulls in extra data that helps the system understand the question better and provide more accurate, context-aware answers.
+What you will see on this DEMO is that I will pull stocks, forex and other financial assets from [twelvedata](https://twelvedata.com/) over REST API and store that data as 
+vectors (text data converted to number sequences using an embedding model) on [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search) ([formerly known as "Azure Cognitive Search"](https://learn.microsoft.com/en-us/azure/search/whats-new#new-service-name)) as the primary index store.
+
+
 - ### Benefits and Applications of RAG
 - Improved privacy: You can use data that the AI wasn’t trained on, meaning you don’t have to worry about the AI knowing sensitive information beforehand.
 - Better context: The system can pull in relevant information to understand the user’s question more deeply. 
@@ -21,17 +26,15 @@ Instead of just relying on what the AI knows, RAG pulls in extra data that helps
 I will set up a Vector Store to implement a RAG example. The Vector Store holds our data along with its vector embeddings, allowing us to perform semantic searches and find the most relevant information for a user’s query.
 
 ## What is on this project
-- Terraform IaC configs to setup an AKS cluster and [Azure AI](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-ai-foundry) Foundry HUB and project, including deploying gpt-4 LLM model.
+- Terraform IaC configs to setup an AKS cluster and [Azure AI](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-ai-foundry) Foundry HUB and project and finally deploying gpt-4 LLM model.
 - [SpringBoot AI](https://docs.spring.io/spring-ai/reference/index.html) project
   - Connecting to Azure AI project
   - Connects to AI VectorStore to loading growth stock trends from [TwelveData](https://twelvedata.com/) to supporting AI RAG.
   - Exposing REST API endpoints to invoking AI ChatBot clients, invoking Azure OpenAI for intelligent responses
 - AI-Powered Chat - Uses Azure OpenAI for intelligent responses.
-- Context-Aware Memory - Stores conversation history in Azure Cosmos DB.
-- Multi-Channel Support - Can integrate with Web, WhatsApp, or Microsoft Teams.
 - Enterprise-Grade Security - Uses OAuth2 and API Gateway for authentication.
 - Scalable & Cloud-Native - Deployable on Azure App Service or Kubernetes.
-- CI/CD Pipeline - Fully automated deployment with Azure DevOps and Terraform.
+- CI/CD Pipeline - Fully automated deployment with Azure DevOps, HELM and Terraform.
 - Centralized Logging (Azure Monitor, Application Insights)
 - Monitoring & Alerts (Azure Monitor, Prometheus/Grafana)
 - Security Best Practices (Key Vault for secrets, RBAC, Network Policies)
@@ -186,3 +189,6 @@ Spring Ai provides a VectorStore interface, which provides all the required func
 - [Financial Data that drives your success](https://twelvedata.com/)
 - [What Is Spring AI Advisor](https://www.baeldung.com/spring-ai-advisors#what-is-spring-ai-advisor)
 - [Adding memory to your chatbot using Spring AI](https://medium.com/wearewaes/creating-a-chatbot-with-spring-ai-java-and-openai-ee42ed9f29f8)
+- [Azure AI Foundary Retrieval augmented generation and indexes](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/retrieval-augmented-generation)
+- [How to build and consume vector indexes in Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/index-add)
+- [What's Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search)
