@@ -48,12 +48,33 @@ resource "azurerm_ai_foundry" "ai_hub" {
   key_vault_id        = azurerm_key_vault.ai_kv.id
 
   identity {
-    type = "SystemAssigned"
+    type = "SystemAssigned" # Enable system-assigned managed identity
   }
 }
 
+# https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/create-hub-terraform?tabs=azure-cli
 resource "azurerm_ai_foundry_project" "ai_project" {
   name               = "aiproject"
   location           = azurerm_ai_foundry.ai_hub.location
   ai_services_hub_id = azurerm_ai_foundry.ai_hub.id
+
+    identity {
+      type = "SystemAssigned" # Enable system-assigned managed identity
+    }
 }
+
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cognitive_deployment
+resource "azurerm_cognitive_deployment" "ai_deployment" {
+  name                 = "gpt-4"
+  cognitive_account_id = azurerm_ai_services.ai_service.id
+  model {
+    format  = "OpenAI"
+    name    = "gpt-4"
+    version = "0125-Preview"
+  }
+
+  sku {
+    name = "Standard"
+  }
+}
+

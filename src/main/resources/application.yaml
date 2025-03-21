@@ -4,11 +4,11 @@ server:
 azure:
   openai:
     api:
-      key: <COPY KEY FROM AZURE PORTAL>
-      endpoint: https://myendpoint.openai.azure.com/
+      key: <COPY terraform output openai_primary_key>
+      endpoint: <COPY terraform output openai_endpoint>
       deployment:
         model:
-          id: gpt-40
+          id: <COPY terraform output openai_model>
   application-insights:
     instrumentation-key: ${AZURE_APP_INSIGHTS_KEY}
 logging:
