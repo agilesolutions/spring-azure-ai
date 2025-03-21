@@ -36,6 +36,19 @@ I will set up a Vector Store to implement a RAG example. The Vector Store holds 
 - Monitoring & Alerts (Azure Monitor, Prometheus/Grafana)
 - Security Best Practices (Key Vault for secrets, RBAC, Network Policies)
 
+## Terraform IaC provision Azure AKS cluster and Azure AI HUB and project
+1. Create an Azure account with an active subscription. You can [create an account for free](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account?icid=azurefreeaccount&WT.mc_id=A261C142F).
+2. [Install and configure Terraform](https://learn.microsoft.com/en-us/azure/developer/terraform/quickstart-configure)
+3. Run the following commands...
+```
+cd ./terraform-manifests
+terraform init
+terraform validate
+terraform plan -out tfplan
+terraform apply "tfplan"
+```
+Check the outputs and assign the Azure OpenAI key, endpoint and model on application.yml.
+
 ## Architecture
 ### Tech Stack
 - Spring Boot (Microservices)
