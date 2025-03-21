@@ -6,7 +6,7 @@ data "external" "ssh_key_generator" {
   program = ["bash", "${path.module}/shell-scripts/ssh_key_generator.sh"]
 
   query = {
-    key_name = "aks-pki"
+    key_name        = "aks-pki"
     key_environment = "dev"
   }
 }
@@ -14,15 +14,15 @@ data "external" "ssh_key_generator" {
 # Outputs
 output "public_key" {
   description = "public_key"
-  value = data.external.ssh_key_generator.result.public_key
+  value       = data.external.ssh_key_generator.result.public_key
 }
 
 output "private_key" {
   description = "private_key"
-  value = data.external.ssh_key_generator.result.private_key
+  value       = data.external.ssh_key_generator.result.private_key
 }
 
 output "private_key_file" {
   description = "private_key_file"
-  value = data.external.ssh_key_generator.result.private_key_file
+  value       = data.external.ssh_key_generator.result.private_key_file
 }
