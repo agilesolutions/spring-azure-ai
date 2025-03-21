@@ -20,7 +20,12 @@ Instead of just relying on what the AI knows, RAG pulls in extra data that helps
 
 I will set up a Vector Store to implement a RAG example. The Vector Store holds our data along with its vector embeddings, allowing us to perform semantic searches and find the most relevant information for a user’s query.
 
-## Features
+## What is on this project
+- Terraform IaC configs to setup an AKS cluster and [Azure AI](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-ai-foundry) Foundry HUB and project, including deploying gpt-4 LLM model.
+- [SpringBoot AI](https://docs.spring.io/spring-ai/reference/index.html) project
+  - Connecting to Azure AI project
+  - Connects to AI VectorStore to loading growth stock trends from [TwelveData](https://twelvedata.com/) to supporting AI RAG.
+  - Exposing REST API endpoints to invoking AI ChatBot clients, invoking Azure OpenAI for intelligent responses
 - AI-Powered Chat - Uses Azure OpenAI for intelligent responses.
 - Context-Aware Memory - Stores conversation history in Azure Cosmos DB.
 - Multi-Channel Support - Can integrate with Web, WhatsApp, or Microsoft Teams.
@@ -35,10 +40,7 @@ I will set up a Vector Store to implement a RAG example. The Vector Store holds 
 ### Tech Stack
 - Spring Boot (Microservices)
 - Spring AI (Azure OpenAI API integration)
-- Azure OpenAI (GPT-based chat responses)
-- Azure Cosmos DB (Chat history storage)
-- Azure Functions (Webhook triggers for AI)
-- Azure App Service (Scalable hosting)
+- Azure AI foundry OpenAI (GPT-based chat responses)
 - Terraform (Infrastructure as Code)
 - Azure DevOps Pipelines (CI/CD automation)
 - Helm & Kubernetes (Optional deployment)
