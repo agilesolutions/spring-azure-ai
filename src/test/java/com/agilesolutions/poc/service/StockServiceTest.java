@@ -2,9 +2,10 @@ package com.agilesolutions.poc.service;
 
 import com.agilesolutions.poc.config.AITestConfig;
 import com.agilesolutions.poc.config.RestTestConfig;
-import com.agilesolutions.poc.model.DailyStockData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
+import org.springframework.ai.document.Document;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.test.context.TestPropertySource;
@@ -19,16 +20,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestPropertySource(properties = { "spring.config.location=classpath:application.yaml" })
 class StockServiceTest {
 
+
+    @Autowired
+    VectorStore store;
+
     @Autowired
     StockService stockService;
 
     @Test
     public void givenAvailable_whenRetrieving_thenReturnStocks() throws JsonProcessingException {
 
-        List<DailyStockData> stocks = stockService.loadStocks();
+        stockService.loadStocks();
+
+        List<Document> documents = store.similaritySearch("Find the most growth trends");
 
         assertAll("verify result",
-                () -> assertTrue(stocks.size() > 0)
+                () -> assertTrue(documents.size() > 0)
         );
 
 

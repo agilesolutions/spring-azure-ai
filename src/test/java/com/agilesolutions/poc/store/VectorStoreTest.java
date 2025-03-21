@@ -29,10 +29,10 @@ public class VectorStoreTest extends BaseIntegrationTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"Find the most growth trends"})
-    void whenSearchingTrends_thenRelevantStocksReturned(String theme) {
+    void whenSearchingTrends_thenRelevantStocksReturned(String question) {
         SearchRequest searchRequest = SearchRequest
                 .builder()
-                .query(theme)
+                .query(question)
                 .topK(MAX_RESULTS)
                 .build();
 

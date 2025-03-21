@@ -155,7 +155,7 @@ steps:
 - curl -X POST http://localhost:11434/api/generate -d '{ "model": "llama2","prompt":"List down 5 best java frameworks"
 
 ## Evalutation testing
-Evaluating the generated content to ensure the AI model has not produced a hallucinated response
+Evaluating the generated content to ensure the AI models do not generate hallucinated responses. Spring AI Evaluators to test LLM help checking the relevance and factual accuracy of the LLM response, namely RelevanceEvaluator and FactCheckingEvaluator.
 - RelevancyEvaluator: JUnit test that performs a RAG query over a Twelvedata share document loaded into a Vector Store and then evaluates if the response is relevant to the user text
 - FactCheckingEvaluator: Junit tests to detect and reduce hallucinations in AI outputs by verifying if a given statement (claim) is logically supported by the provided context (document).
 
