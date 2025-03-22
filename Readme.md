@@ -178,17 +178,11 @@ Evaluating the generated content to ensure the AI models do not generate halluci
 - FactCheckingEvaluator: Junit tests to detect and reduce hallucinations in AI outputs by verifying if a given statement (claim) is logically supported by the provided context (document).
 
 ## References
-Spring Ai provides a VectorStore interface, which provides all the required functions to communicate with Vector Databases. When a user query is sent to the AI Model, it retrieves a set of Similar Documents from Vector Databases, these Documents serve as a context for user questions. this technique is also called Retrieval Augmented Generation or RAG.
-- [Best post on RAG](https://itnext.io/part-4-chatting-about-company-documents-using-rag-and-spring-ai-ca030132d67d)
-- [Vector Databases perform similarity searches and return relevant data](https://wesome.org/spring-ai-vector-database)
-- [Retrieval-Augmented Generation With MongoDB and Spring AI](https://www.mongodb.com/developer/languages/java/retrieval-augmented-generation-spring-ai/)
-- [Provide Additional Context](https://www.baeldung.com/spring-ai-chatclient)
-- [Spring Ai Simple Vector Store](https://wesome.org/spring-ai-simple-vector-store)
-- [Getting Started with Spring AI VectorStore](https://howtodoinjava.com/spring-ai/vector-store-example/)
-- [Using RAG and Vector Store with Spring AI](https://piotrminkowski.com/2025/02/24/using-rag-and-vector-store-with-spring-ai/)
-- [Financial Data that drives your success](https://twelvedata.com/)
-- [What Is Spring AI Advisor](https://www.baeldung.com/spring-ai-advisors#what-is-spring-ai-advisor)
-- [Adding memory to your chatbot using Spring AI](https://medium.com/wearewaes/creating-a-chatbot-with-spring-ai-java-and-openai-ee42ed9f29f8)
+The Spring AI project aims to streamline the development of applications that incorporate artificial intelligence functionality without unnecessary complexity.
+Azure AI Foundry provides a unified platform for enterprise AI operations, model builders, and application development. 
+- [TwelveData: Financial Data that drives your success](https://twelvedata.com/)
+- [About Spring AI](https://docs.spring.io/spring-ai/reference/index.html)
+- [About Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-ai-foundry)
 - [Azure AI Foundary Retrieval augmented generation and indexes](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/retrieval-augmented-generation)
 - [How to build and consume vector indexes in Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/index-add)
 - [What's Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search)
