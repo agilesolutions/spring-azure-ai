@@ -186,3 +186,6 @@ Azure AI Foundry provides a unified platform for enterprise AI operations, model
 - [Azure AI Foundary Retrieval augmented generation and indexes](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/retrieval-augmented-generation)
 - [How to build and consume vector indexes in Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/index-add)
 - [What's Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search)
+- [Create an Azure AI Foundry hub with Terraform](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/create-hub-terraform?tabs=azure-cli)
+- [Quickstart: Create an Azure AI services resource using Terraform](https://learn.microsoft.com/en-us/azure/ai-services/create-account-terraform?tabs=azure-cli)
+- [Terraform Azure AI Hub module](https://registry.terraform.io/modules/Azure/avm-res-machinelearningservices-workspace/azurerm/latest/examples/private_ai_studio)
