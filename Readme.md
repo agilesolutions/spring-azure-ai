@@ -1,18 +1,16 @@
 # Overview
-This project is an AI-powered chatbot built with Spring Boot, Spring AI, and Azure OpenAI that uses RAG (Retrieval Augmented Generation) and vector store with Spring AI.
-Thanks to that, the Spring Boot app will retrieve similar documents that best match a user query before sending a request to the AI model. These documents provide context for the query and are sent to the AI model alongside the user’s question.
-Vector databases, through semantic searches, help with addressing some of the issues with LLMs such as hallucinations.
-It integrates Azure Cognitive Services and Kubernetes to provide intelligent, scalable, and secure chatbot solutions for businesses.
+This project presents an AI-powered stock market data chatbot built with Spring Boot and Spring AI, deployed on Azure AKS, connecting to Azure AI OpenAI models provisioned on Azure AI Foundry.
+This solution fetches share prices from a public API ([twelvedata.com](https://support.twelvedata.com/)) and stores it on Azure AI Search to support RAG (Retrieval Augmented Generation).
 
 ## Why RAG
 Large language models (LLMs) like ChatGPT are trained on public internet data that was available at the point in time when they were trained. They can answer questions related to the data they were trained on.
 Retrieval Augmented Generation (RAG) is a smart way to improve how AI systems answer questions or create content by combining two steps: retrieving useful information and generating responses. 
 Instead of just relying on what the AI knows, RAG pulls in extra data that helps the system understand the question better and provide more accurate, context-aware answers.
-What you will see on this DEMO is that I will pull stocks, forex and other financial assets from [twelvedata](https://twelvedata.com/) over REST API and store that data as 
-vectors (text data converted to number sequences using an embedding model) on [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search) ([formerly known as "Azure Cognitive Search"](https://learn.microsoft.com/en-us/azure/search/whats-new#new-service-name)) as the primary index store.
+This demo provides that extra data by pulling stocks, forex and other financial assets from [twelvedata.com](https://twelvedata.com/) over REST API and stores that data as 
+vectors (text data converted to number sequences using an embedding model) on [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search). 
 
 
-- ### Benefits and Applications of RAG
+## Benefits and Applications of RAG
 - Improved privacy: You can use data that the AI wasn’t trained on, meaning you don’t have to worry about the AI knowing sensitive information beforehand.
 - Better context: The system can pull in relevant information to understand the user’s question more deeply. 
   - This demo pulls in actual realtime stocks from [TwelveData](https://support.twelvedata.com/), See [TwelveData API contracts](https://twelvedata.com/docs#core-data)
@@ -23,18 +21,18 @@ vectors (text data converted to number sequences using an embedding model) on [A
 
 <img title="Retrieval Augmented Generation (RAG) technique" alt="Alt text" src="/images/rag.png">
 
-I will set up a Vector Store to implement a RAG example. The Vector Store holds our data along with its vector embeddings, allowing us to perform semantic searches and find the most relevant information for a user’s query.
-
 ## What is on this project
-- Terraform IaC configs to setup an AKS cluster and [Azure AI](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-ai-foundry) Foundry HUB and project and finally deploying gpt-4 LLM model.
-- [SpringBoot AI](https://docs.spring.io/spring-ai/reference/index.html) project
-  - Connecting to Azure AI project
-  - Connects to AI VectorStore to loading growth stock trends from [TwelveData](https://twelvedata.com/) to supporting AI RAG.
-  - Exposing REST API endpoints to invoking AI ChatBot clients, invoking Azure OpenAI for intelligent responses
-- AI-Powered Chat - Uses Azure OpenAI for intelligent responses.
+- Terraform configuration files to provisioning all Azure infrastructure components to allowing this demo to run in its full context. That includes a full Azure Kubernetes AKS cluster and [Azure AI](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-ai-foundry) Foundry HUB and project and finally deploying gpt-4 LLM model.
+- [SpringBoot AI](https://docs.spring.io/spring-ai/reference/index.html) empowered SpringBoot application:
+  - Connecting to Azure AI Foundry
+  - Connecting to Azure Search VectorStore to loading stock prices growth from [TwelveData](https://twelvedata.com/) to supporting AI RAG.
+  - Exposing REST API endpoints to invoking AI ChatBot logic underneath.
+  - Misc integration tests to accessing Semantic searches and evaluating LLM responses on [Relevancy and Factual Accuracy](https://www.evidentlyai.com/llm-guide/llm-as-a-judge). 
+- Gradle scripts build to compile, test and package to a deployable archive.
+- Docker and HELM chart artifacts to providing Kubernetes manifests and deploy this solution onto Azure AKS. 
+- CI/CD ADO Azure DevOps Pipeline - Fully automated build package and deployment with Azure DevOps.
 - Enterprise-Grade Security - Uses OAuth2 and API Gateway for authentication.
 - Scalable & Cloud-Native - Deployable on Azure App Service or Kubernetes.
-- CI/CD Pipeline - Fully automated deployment with Azure DevOps, HELM and Terraform.
 - Centralized Logging (Azure Monitor, Application Insights)
 - Monitoring & Alerts (Azure Monitor, Prometheus/Grafana)
 - Security Best Practices (Key Vault for secrets, RBAC, Network Policies)
@@ -68,12 +66,20 @@ Check the outputs and assign the Azure OpenAI key, endpoint and model on applica
 - Kubernetes manifests (Deployment and LoadBalancer Service)
 
 ```
-spring-ai-azure-chatbot/
-│── .github/                     # GitHub workflows for CI/CD (optional)
-│── infrastructure/               # Terraform configurations for AKS
-│   ├── main.tf                   # Azure AKS cluster definition
-│   ├── variables.tf               # Configurable variables
-│   ├── outputs.tf                 # Outputs for deployments
+spring-azure-ai/
+│── .github/                                # GitHub workflows for CI/CD (optional)
+│── terraform-manifests/                    # Terraform configurations for AKS
+│   ├── 01-versions.tf                      # Terraform providers and versions
+│   ├── 02-variables.tf                     # Configurable input variables
+│   ├── 03-locals.tf                        # Local value blocks for composing names and common labeling
+│   ├── 04-resource-group.tf                # Master Azure ARM resource group to hosting all Azure infrastructure components
+│   ├── 05-aks-versions-datasource.tf       # Datasource to get Latest Azure AKS latest Version
+│   ├── 06-aks-administrators-azure-ad.tf   # Create Azure AD Group in Active Directory for AKS Admins
+│   ├── 07-log-analytics-workspace.tf       # Log Analytics workspace to integrate Application insightss telemetry data
+│   ├── 08-external-datasource.tf           # Call SSH key generator script to providing AKS PKI pub and private key pair.
+│   ├── 09-aks-cluster.tf                   # Provision AKS cluster, node pool and network profile.
+│   ├── 10-ai-foundry-project.tf            # Provision Azure AI Foundry HUB, project and deploy LLM model.
+│   ├── 11-outputs.tf                       # Capture all outputs from Terraform provisioning process.
 │── src/
 │   ├── main/java/com/agilesolutions/chatbot/
 │   │   ├── config/                # Spring Boot configuration (AI, security, etc.)

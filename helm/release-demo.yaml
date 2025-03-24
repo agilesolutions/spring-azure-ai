@@ -1,5 +1,5 @@
 image:
-  repository: agilesolutions/k8sdemo
+  repository: agilesolutions/findata
   tag: 1.0.0
 
 replicaCount: 1

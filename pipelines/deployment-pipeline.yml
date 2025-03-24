@@ -6,7 +6,7 @@ pool:
 
 variables:
   dockerRegistryServiceConnection: 'dockerhub' # name of ACR service connection
-  imageRepository: 'agilesolutions/feature-flags' # name of image repository
+  imageRepository: 'agilesolutions/findata' # name of image repository
   containerRegistry: 'Docker Hub' # name of Azure container registry
   imagePullSecret: 'github-auth'
   tag: '$(Build.BuildId)'
@@ -69,7 +69,7 @@ stages:
         displayName: Deploy
         pool:
           vmImage: $(vmImageName)
-        environment: 'feature-flags'
+        environment: 'findata'
         strategy:
           runOnce:
             deploy:

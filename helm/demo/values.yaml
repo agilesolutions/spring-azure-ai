@@ -1,8 +1,8 @@
-namespace: demo
+namespace: ai
 replicaCount: 1
 
 image:
-  repository: agilesolutions/k8sdemo
+  repository: agilesolutions/findata
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -15,7 +15,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
   hosts:
-    - host: demo.127.0.0.1.nip.io
+    - host: findata.127.0.0.1.nip.io
       paths:
         - path: /
           pathType: ImplementationSpecific
