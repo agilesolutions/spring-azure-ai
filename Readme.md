@@ -2,6 +2,7 @@
 This project presents an AI-powered stock market data chatbot built with Spring Boot and Spring AI, deployed on Azure AKS, connecting to Azure AI OpenAI models provisioned on Azure AI Foundry.
 This solution fetches share prices from a public API ([twelvedata.com](https://support.twelvedata.com/)) and stores it on Azure AI Search to support RAG (Retrieval Augmented Generation).
 
+- **NOTE!!!** *development ongoing*
 ## Why RAG
 Large language models (LLMs) like ChatGPT are trained on public internet data that was available at the point in time when they were trained. They can answer questions related to the data they were trained on.
 Retrieval Augmented Generation (RAG) is a smart way to improve how AI systems answer questions or create content by combining two steps: retrieving useful information and generating responses. 
@@ -13,16 +14,13 @@ vectors (text data converted to number sequences using an embedding model) on [A
 ## Benefits and Applications of RAG
 - Improved privacy: You can use data that the AI wasn’t trained on, meaning you don’t have to worry about the AI knowing sensitive information beforehand.
 - Better context: The system can pull in relevant information to understand the user’s question more deeply. 
-  - This demo pulls in actual realtime stocks from [TwelveData](https://support.twelvedata.com/), See [TwelveData API contracts](https://twelvedata.com/docs#core-data)
-  - Converted to vectors accordingly stored in a vector Database (VectorStore)
-.  - Uses an advisor to push actual context to the prompt to improving the results calculated for GPT static learned data...
 - Higher accuracy: By looking up information, RAG helps reduce mistakes (when AI makes up things) by using real facts.
 - Flexible applications: It can be used for various tasks like answering questions, creating summaries, or powering chatbots.
 
 <img title="Retrieval Augmented Generation (RAG) technique" alt="Alt text" src="/images/rag.png">
 
 ## What is on this project
-- Terraform configuration files to provisioning all Azure infrastructure components to allowing this demo to run in its full context. That includes a full Azure Kubernetes AKS cluster and [Azure AI](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-ai-foundry) Foundry HUB and project and finally deploying gpt-4 LLM model.
+- Terraform configuration files to provisioning all Azure infrastructure components needed to run this demo in its full context. That includes a full Azure Kubernetes AKS cluster and [Azure AI](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-ai-foundry) Foundry HUB, project and finally deploying gpt-4 LLM model.
 - [SpringBoot AI](https://docs.spring.io/spring-ai/reference/index.html) empowered SpringBoot application:
   - Connecting to Azure AI Foundry
   - Connecting to Azure Search VectorStore to loading stock prices growth from [TwelveData](https://twelvedata.com/) to supporting AI RAG.
@@ -194,4 +192,5 @@ Azure AI Foundry provides a unified platform for enterprise AI operations, model
 - [What's Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search)
 - [Create an Azure AI Foundry hub with Terraform](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/create-hub-terraform?tabs=azure-cli)
 - [Quickstart: Create an Azure AI services resource using Terraform](https://learn.microsoft.com/en-us/azure/ai-services/create-account-terraform?tabs=azure-cli)
+- [Quickstart: Deploy Azure AI Search service using Terraform](https://learn.microsoft.com/en-us/azure/search/search-get-started-terraform)
 - [Terraform Azure AI Hub module](https://registry.terraform.io/modules/Azure/avm-res-machinelearningservices-workspace/azurerm/latest/examples/private_ai_studio)

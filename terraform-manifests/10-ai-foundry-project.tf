@@ -74,7 +74,16 @@ resource "azurerm_cognitive_deployment" "ai_deployment" {
   }
 
   sku {
-    name = "Standard"
+    name = var.sku
   }
 }
 
+# Azure AI Search vector database
+resource "azurerm_search_service" "search" {
+  name                = local.search-name
+  resource_group_name = azurerm_resource_group.aks_rg.name
+  location            = azurerm_resource_group.aks_rg.location
+  sku                 = var.sku
+  replica_count       = var.replica_count
+  partition_count     = var.partition_count
+}

@@ -2,6 +2,12 @@ server:
   port: 80
 
 azure:
+  ai:
+    vectorstore:
+      azure:
+        url: <COPY terraform output >
+        api-key: <COPY terraform output >
+        initialize-schema: true
   openai:
     api:
       key: <COPY terraform output openai_primary_key>

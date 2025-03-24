@@ -37,7 +37,7 @@ dependencies {
     implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
     implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
     implementation 'org.springframework.ai:spring-ai-azure-openai-spring-boot-starter'
-    // vector stores
+    // vector store, Azure AI search
     implementation 'org.springframework.ai:spring-ai-azure-store'
     // readers
     implementation 'org.springframework.ai:spring-ai-markdown-document-reader'

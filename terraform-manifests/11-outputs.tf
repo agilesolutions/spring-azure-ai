@@ -25,3 +25,10 @@ output "openai_model" {
   # Argument Reference
   value = azurerm_cognitive_deployment.ai_deployment.model[0].name
 }
+
+output "search_key" {
+  description = "Azure AI Search Endpoint"
+  # Argument Reference
+  value =  azurerm_search_service.search.primary_key
+  sensitive = false
+}
