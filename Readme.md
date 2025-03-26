@@ -1,5 +1,5 @@
 # Overview
-This project presents an AI-powered stock market data chatbot built with Spring Boot and Spring AI, deployed on Azure AKS, connecting to Azure AI OpenAI models provisioned on Azure AI Foundry.
+This project presents an AI-powered stock market data AI powered application built with Spring Boot and Spring AI, designed to run as a service on Azure AKS kubernetes, connecting to Azure AI OpenAI models provisioned on Azure AI Foundry.
 This solution fetches share prices from a public API ([twelvedata.com](https://support.twelvedata.com/)) and stores it on Azure AI Search to support RAG (Retrieval Augmented Generation).
 
 - **NOTE!!!** *development ongoing*
@@ -73,11 +73,11 @@ spring-azure-ai/
 │   ├── 04-resource-group.tf                # Master Azure ARM resource group to hosting all Azure infrastructure components
 │   ├── 05-aks-versions-datasource.tf       # Datasource to get Latest Azure AKS latest Version
 │   ├── 06-aks-administrators-azure-ad.tf   # Create Azure AD Group in Active Directory for AKS Admins
-│   ├── 07-log-analytics-workspace.tf       # Log Analytics workspace to integrate Application insightss telemetry data
+│   ├── 07-log-analytics-workspace.tf       # Log Analytics workspace to integrate Application insights telemetry data: enabling comprehensive observability of springboot applications running on AKS. 
 │   ├── 08-external-datasource.tf           # Call SSH key generator script to providing AKS PKI pub and private key pair.
 │   ├── 09-aks-cluster.tf                   # Provision AKS cluster, node pool and network profile.
 │   ├── 10-ai-foundry-project.tf            # Provision Azure AI Foundry HUB, project and deploy LLM model.
-│   ├── 11-outputs.tf                       # Capture all outputs from Terraform provisioning process.
+│   ├── 11-outputs.tf                       # Capture all outputs from Terraform provisioning process, like Azure AI Service API keys and endpoints get configured on SpringBoot application properties.
 │── src/
 │   ├── main/java/com/agilesolutions/chatbot/
 │   │   ├── config/                # Spring Boot configuration (AI, security, etc.)
@@ -105,11 +105,14 @@ spring-azure-ai/
 │── LICENSE                         # Open-source license
 ```
 
-# Enhancements: Logging, Monitoring, and Security
-To make the Spring AI + Azure OpenAI chatbot production-ready, let's add:
-- Centralized Logging (Azure Monitor, Application Insights)
-- Monitoring & Alerts (Azure Monitor, Prometheus/Grafana)
-- Security Best Practices (Key Vault for secrets, RBAC, Network Policies)
+# Enhancements: Logging, Monitoring (*make Azure AI search production-ready*)
+Collect telemetry data for search traffic analytics. Search traffic analytics is a pattern for collecting telemetry about user interactions with your Azure AI Search application, such as user-initiated clickstream events and keyboard inputs. Using this information, you can determine the effectiveness of your search solution, including clickthrough rate and which query inputs yield zero results.
+
+- Add a telemetry client
+- Modify a search request to include a correlation Id that maps search results to user actions
+- Create and send a custom event to [Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/create-workspace-resource?tabs=portal) and use the visualization and reporting tools to view event data. Application Insights integrates with Log Analytics and sends telemetry to a common Log Analytics workspace. This setup provides full access to Log Analytics features, consolidates logs in one location.
+- Add Gradle dependency Application Insights to instrument application code. 
+- Add Application Insights resource with Terraform and let it integrate with the Log Analytics workspace configured by Terraform.
 
 ## Expose Prometheus Metrics in Spring Boot
 - Add Actuator + Micrometer dependencies
@@ -194,3 +197,6 @@ Azure AI Foundry provides a unified platform for enterprise AI operations, model
 - [Quickstart: Create an Azure AI services resource using Terraform](https://learn.microsoft.com/en-us/azure/ai-services/create-account-terraform?tabs=azure-cli)
 - [Quickstart: Deploy Azure AI Search service using Terraform](https://learn.microsoft.com/en-us/azure/search/search-get-started-terraform)
 - [Terraform Azure AI Hub module](https://registry.terraform.io/modules/Azure/avm-res-machinelearningservices-workspace/azurerm/latest/examples/private_ai_studio)
+- [Terraform Application Insights in workspace mode](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights#example-usage---workspace-mode)
+- [Azure AI Search traffic analytics](https://learn.microsoft.com/en-us/previous-versions/azure/search/search-traffic-analytics?tabs=visual-studio-telemetry-client%2Cdotnet-correlation%2Cdotnet-properties%2Cdotnet-custom-events)
+- [Azure App insights for Java Springboot application](https://learn.microsoft.com/en-us/answers/questions/464921/azure-app-insights-for-java-springboot-application)

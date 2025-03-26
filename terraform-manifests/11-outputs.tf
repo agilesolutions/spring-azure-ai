@@ -27,8 +27,20 @@ output "openai_model" {
 }
 
 output "search_key" {
-  description = "Azure AI Search Endpoint"
+  description = "Azure AI Search API key for API access control, configure on SpringBoot vector store API KEY"
   # Argument Reference
   value =  azurerm_search_service.search.primary_key
+  sensitive = false
+}
+
+output "instrumentation_key" {
+  description = "The Instrumentation Key for this Application Insights component"
+  value = azurerm_application_insights.example.instrumentation_key
+  sensitive = false
+}
+
+output "app_id" {
+  description = "The App ID associated with this Application Insights component"
+  value = azurerm_application_insights.example.app_id
   sensitive = false
 }

@@ -41,8 +41,9 @@ dependencies {
     implementation 'org.springframework.ai:spring-ai-azure-store'
     // readers
     implementation 'org.springframework.ai:spring-ai-markdown-document-reader'
-    // models
+    // embeddings
     implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter'
+    implementation 'org.springframework.ai:spring-ai-starter-model-azure-openai'
 
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'com.microsoft.azure:applicationinsights-spring-boot-starter:2.6.4'

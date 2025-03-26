@@ -2,6 +2,8 @@ package com.agilesolutions.poc.rest;
 
 
 import com.agilesolutions.poc.service.ChatService;
+import com.microsoft.applicationinsights.TelemetryClient;
+import com.microsoft.applicationinsights.telemetry.MetricTelemetry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +20,22 @@ public class StockController {
 
     private final ChatService chatService;
 
+    private final TelemetryClient telemetryClient;
 
     @GetMapping("/best-trend")
     public ResponseEntity<String> getBom(@RequestParam("version") String version) {
-        return ResponseEntity.ok(chatService.getBestDeal());
+
+        // measure Azure client search query benchmark
+        long startTime = System.nanoTime();
+        ResponseEntity<String> response = ResponseEntity.ok(chatService.getBestDeal());
+        long endTime = System.nanoTime();
+
+        MetricTelemetry benchmark = new MetricTelemetry();
+        benchmark.setName("DB query");
+        benchmark.setValue(endTime - startTime);
+        telemetryClient.trackMetric(benchmark);
+
+        return response;
     }
 
 

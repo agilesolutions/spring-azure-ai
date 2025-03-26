@@ -16,7 +16,7 @@ azure:
         model:
           id: <COPY terraform output openai_model>
   application-insights:
-    instrumentation-key: ${AZURE_APP_INSIGHTS_KEY}
+    instrumentation-key: <COPY terraform output instrumentation_key>
 logging:
   level:
     root: INFO
