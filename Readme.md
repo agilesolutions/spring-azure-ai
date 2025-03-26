@@ -200,3 +200,20 @@ Azure AI Foundry provides a unified platform for enterprise AI operations, model
 - [Terraform Application Insights in workspace mode](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights#example-usage---workspace-mode)
 - [Azure AI Search traffic analytics](https://learn.microsoft.com/en-us/previous-versions/azure/search/search-traffic-analytics?tabs=visual-studio-telemetry-client%2Cdotnet-correlation%2Cdotnet-properties%2Cdotnet-custom-events)
 - [Azure App insights for Java Springboot application](https://learn.microsoft.com/en-us/answers/questions/464921/azure-app-insights-for-java-springboot-application)
+- [Enhancing Search and Insights with Azure AI Search](https://medium.com/@ilakk2023/329-enhancing-search-and-insights-with-azure-ai-search-features-benefits-and-use-cases-2a2954178ffd)
+
+## What is next
+Convert this solution into an AI Agent, a system that is using LLM (combined in RAG) and performs actions. aka [Function call API pattern](It enables applications to perform a complex collection of precise tasks and make decisions independently.). It enables applications to perform a complex collection of precise tasks and make decisions independently, 
+like automatically raising orders in a legacy OMS order management system. By defining the algorithm in a LLM prompt specifying the function schema. This schema identifies the correct function to performing that specific legacy OMS order entry API endpoint.
+- [Ai Agent Patterns with Spring AI](https://dev.to/lucasnscr/ai-agent-patterns-with-spring-ai-43gl)
+- [Building a custom AI agent in Java](https://vaadin.com/blog/building-a-custom-ai-agent-in-java-a-hands-on-guide)
+- [AI Agents with Spring AI](https://www.youtube.com/watch?v=d2p97gV-kHY)
+- 
+### Spring AI Tool calling
+The goal is to automate tasks that would otherwise require human intervention or explicit programming. For example, a tool can be used to book a flight for a customer interacting with a chatbot, to fill out a form on a web page, or
+automatically generate an order in an OMS order management system. (*to be continued*)
+
+- [Spring AI Tool Calling](https://docs.spring.io/spring-ai/reference/api/tools.html) 
+
+
+
