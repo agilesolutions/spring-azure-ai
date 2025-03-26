@@ -105,7 +105,7 @@ spring-azure-ai/
 │── LICENSE                         # Open-source license
 ```
 
-# Enhancements: Logging, Monitoring (*make Azure AI search production-ready*)
+# Logging, Monitoring (*Azure AI search production-ready*)
 Collect telemetry data for search traffic analytics. Search traffic analytics is a pattern for collecting telemetry about user interactions with your Azure AI Search application, such as user-initiated clickstream events and keyboard inputs. Using this information, you can determine the effectiveness of your search solution, including clickthrough rate and which query inputs yield zero results.
 
 - Add a telemetry client
