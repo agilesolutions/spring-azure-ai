@@ -27,18 +27,18 @@ public class AgentService {
 
     public String calculateWalletValueWithTools() {
         PromptTemplate pt = new PromptTemplate("""
-        What’s the current value in dollars of my wallet based on the latest stock daily prices ?
+        What’s the current value in dollars of my wallet based on the latest stock daily prices ? Send your response over WhatsUp
         """);
 
         return this.aiClient.prompt(pt.create())
-                .tools(stockTools, walletTools)
+                .tools(stockTools, walletTools, whatsUpTools)
                 .call()
                 .content();
     }
 
     public String calculateHighestWalletValue(@PathVariable int days) {
         PromptTemplate pt = new PromptTemplate("""
-        On which day during last {days} days my wallet had the highest value in dollars based on the historical daily stock prices ?
+        On which day during last {days} days my wallet had the highest value in dollars based on the historical daily stock prices ? Send your response over WhatsUp
         """);
 
         return this.aiClient.prompt(pt.create(Map.of("days", days)))

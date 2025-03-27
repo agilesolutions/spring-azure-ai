@@ -26,11 +26,10 @@ public class WhatsUpTools {
     }
 
     @Tool(description = "Send out WhatsUp message")
-    public String sendWhatsAppMessage(@ToolParam(description = "Recipient's number") String to,
-                                      @ToolParam(description = "WhatsUp message") String messageBody) {
+    public String sendWhatsAppMessage(@ToolParam(description = "Generative response") String messageBody) {
         // Send a message via Twilio's API
         Message message = Message.creator(
-                        new PhoneNumber("whatsapp:" + to),   // Recipient's WhatsApp number
+                        new PhoneNumber("whatsapp:" + fromWhatsAppNumber),   // Recipient's WhatsApp number
                         new PhoneNumber(fromWhatsAppNumber), // Twilio WhatsApp number
                         messageBody)                         // Message body
                 .create();
