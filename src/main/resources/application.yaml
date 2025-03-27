@@ -31,6 +31,13 @@ logging:
     com.agilesolutions.chatbot: DEBUG
     org.springframework.ai: DEBUG
 
+twilio:
+  account:
+    sid: <YOUR_ACCOUNT_SID>
+  auth:
+    token: <YOUR_AUTH_TOKEN>
+  whatsapp:
+    number: whatsapp:+04<MY-SWISS-NUMBER>
 
 management:
   endpoints:

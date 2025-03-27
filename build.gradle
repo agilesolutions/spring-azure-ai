@@ -39,6 +39,8 @@ dependencies {
     implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
     implementation 'org.springframework.ai:spring-ai-azure-openai-spring-boot-starter'
     implementation 'com.h2database:h2:1.4.200'
+    // Whatsup notification
+    implementation 'com.twilio.sdk:twilio:10.4.1'
     // vector store, Azure AI search
     implementation 'org.springframework.ai:spring-ai-azure-store'
     // readers

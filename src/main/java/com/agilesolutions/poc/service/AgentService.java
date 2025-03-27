@@ -2,6 +2,7 @@ package com.agilesolutions.poc.service;
 
 import com.agilesolutions.poc.tools.StockTools;
 import com.agilesolutions.poc.tools.WalletTools;
+import com.agilesolutions.poc.tools.WhatsUpTools;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -22,6 +23,8 @@ public class AgentService {
 
     private final WalletTools walletTools;
 
+    private final WhatsUpTools whatsUpTools;
+
     public String calculateWalletValueWithTools() {
         PromptTemplate pt = new PromptTemplate("""
         What’s the current value in dollars of my wallet based on the latest stock daily prices ?
@@ -39,7 +42,7 @@ public class AgentService {
         """);
 
         return this.aiClient.prompt(pt.create(Map.of("days", days)))
-                .tools(stockTools, walletTools)
+                .tools(stockTools, walletTools, whatsUpTools)
                 .call()
                 .content();
     }
