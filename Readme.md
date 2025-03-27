@@ -1,6 +1,7 @@
 # Overview
 This project presents an AI-powered stock market data AI powered application built with Spring Boot and Spring AI, designed to run as a service on Azure AKS kubernetes, connecting to Azure AI OpenAI models provisioned on Azure AI Foundry.
-This solution fetches share prices from a public API ([twelvedata.com](https://support.twelvedata.com/)) and stores it on Azure AI Search to support RAG (Retrieval Augmented Generation).
+1. This solution fetches share prices from a public API ([twelvedata.com](https://support.twelvedata.com/)) and stores it on Azure AI Search to support RAG (Retrieval Augmented Generation).
+2. AI Agent functionality to letting the AI model autonomously perform tasks, like sending out messages without user intervention, depending on the inquiry and AI response.
 
 - **NOTE!!!** *development ongoing*
 ## Why RAG
@@ -15,7 +16,8 @@ vectors (text data converted to number sequences using an embedding model) on [A
 - Improved privacy: You can use data that the AI wasn’t trained on, meaning you don’t have to worry about the AI knowing sensitive information beforehand.
 - Better context: The system can pull in relevant information to understand the user’s question more deeply. 
 - Higher accuracy: By looking up information, RAG helps reduce mistakes (when AI makes up things) by using real facts.
-- Flexible applications: It can be used for various tasks like answering questions, creating summaries, or powering chatbots.
+- Flexible applications: It can be used for various tasks like answering questions and more importantly autonomously performing tasks on behalf of a user, aka the [AI Agent pattern](https://blog.whiteprompt.com/mastering-ai-patterns-architectures-knowledge-systems-and-multi-agent-approaches-386064c4bc5a). Tools in this category can be used to take action in a software system, such as sending an email, creating a new record in a database, submitting a form, or triggering a workflow.
+  The goal is to automate tasks that would otherwise require human intervention or explicit programming.
 
 <img title="Retrieval Augmented Generation (RAG) technique" alt="Alt text" src="/images/rag.png">
 
