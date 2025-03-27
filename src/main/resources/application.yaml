@@ -1,6 +1,13 @@
 server:
   port: 80
 
+spring:
+  jpa:
+    database-platform: H2
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+
 azure:
   ai:
     vectorstore:
@@ -17,10 +24,12 @@ azure:
           id: <COPY terraform output openai_model>
   application-insights:
     instrumentation-key: <COPY terraform output instrumentation_key>
+
 logging:
   level:
     root: INFO
     com.agilesolutions.chatbot: DEBUG
+    org.springframework.ai: DEBUG
 
 
 management:

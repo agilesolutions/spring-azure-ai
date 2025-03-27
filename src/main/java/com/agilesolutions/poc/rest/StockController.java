@@ -23,7 +23,7 @@ public class StockController {
     private final TelemetryClient telemetryClient;
 
     @GetMapping("/best-trend")
-    public ResponseEntity<String> getBom(@RequestParam("version") String version) {
+    public ResponseEntity<String> getBestDeal(@RequestParam("version") String version) {
 
         // measure Azure client search query benchmark
         long startTime = System.nanoTime();
