@@ -83,10 +83,13 @@ spring-azure-ai/
 │── src/
 │   ├── main/java/com/agilesolutions/chatbot/
 │   │   ├── config/                # Spring Boot configuration (AI, security, etc.)
-│   │   ├── controller/            # REST API controllers (chat endpoint)
+│   │   ├── dto/                   # Data Transfer Objects
+│   │   ├── model/                 # Domain models (Stock, Share, etc.)
+│   │   ├── repository/            # H2 in memory DB repository
+│   │   ├── rest/                  # REST API controllers (chat and AI agent endpoints)
+│   │   ├── schedule/              # Scheduled jobs to load share prices on Azure Search VectorDatabase
 │   │   ├── service/               # Business logic for AI processing
-│   │   ├── repository/            # CosmosDB repository
-│   │   ├── model/                 # Domain models (User, ChatRequest, etc.)
+│   │   ├── tools/                 # AI autonomously invoked tools like sending out WhatsUp message, inquiring actual stock prices
 │   ├── resources/
 │   │   ├── application.yml        # Spring Boot configurations
 │   │   ├── prompts/               # AI prompts for chatbot
