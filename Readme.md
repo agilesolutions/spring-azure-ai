@@ -1,7 +1,7 @@
 # Overview
 This project presents an AI-powered stock market data AI powered application built with Spring Boot and Spring AI, designed to run as a service on Azure AKS kubernetes, connecting to Azure AI OpenAI models provisioned on Azure AI Foundry.
 1. This solution fetches share prices from a public API ([twelvedata.com](https://support.twelvedata.com/)) and stores it on Azure AI Search to support RAG (Retrieval Augmented Generation).
-2. AI Agent functionality to letting the AI model autonomously perform tasks, like sending out messages without user intervention, depending on the inquiry and AI response.
+2. [AI Agent](https://www.pega.com/agentic-ai?utm_source=google&utm_medium=cpc&utm_campaign=G_DACH_NonBrand_AgenticAI_CE_Exact_(CPN-111052)_EN&utm_term=agentic%20ai&gloc=9189123&utm_content=pcrid%7C731149222736%7Cpkw%7Ckwd-1490950831424%7Cpmt%7Ce%7Cpdv%7Cc%7C&gad_source=1&gclid=Cj0KCQjwkZm_BhDrARIsAAEbX1HB619ps6TWXRDu9QIvvLbQJ98faUewIqpHV6y2beDb_ayi1qLpbNoaAvxMEALw_wcB&gclsrc=aw.ds#p-c6e30b6a-0e50-4df1-bc14-357576efd817) functionality to letting the AI model autonomously perform tasks, like sending out messages without user intervention, depending on the inquiry and AI response.
 3. **NEW** : Introduce [Model Context Protocol](https://modelcontextprotocol.io/introduction) (MCP), introduce an agent and complex workflows on top of LLMs. Go beyound general knowledge-based question-answering pattern and enhance AI LLM agent connect to search engines, databases and file systems.
 
 - **NOTE!!!** *development ongoing*
