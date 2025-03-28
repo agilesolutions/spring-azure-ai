@@ -5,7 +5,7 @@ This project presents an AI-powered stock market data AI powered application bui
 
 - **NOTE!!!** *development ongoing*
 ## Why RAG
-Large language models (LLMs) like ChatGPT are trained on public internet data that was available at the point in time when they were trained. They can answer questions related to the data they were trained on.
+Large language models (LLMs) like ChatGPT are trained on public internet data that was available at the point in time when they were trained ([See the knowledge cut-off dates for various large language models (LLM)](https://github.com/HaoooWang/llm-knowledge-cutoff-dates?tab=readme-ov-file)). They can answer questions related to the data they were trained on.
 Retrieval Augmented Generation (RAG) is a smart way to improve how AI systems answer questions or create content by combining two steps: retrieving useful information and generating responses. 
 Instead of just relying on what the AI knows, RAG pulls in extra data that helps the system understand the question better and provide more accurate, context-aware answers.
 This demo provides that extra data by pulling stocks, forex and other financial assets from [twelvedata.com](https://twelvedata.com/) over REST API and stores that data as 
