@@ -2,6 +2,7 @@
 This project presents an AI-powered stock market data AI powered application built with Spring Boot and Spring AI, designed to run as a service on Azure AKS kubernetes, connecting to Azure AI OpenAI models provisioned on Azure AI Foundry.
 1. This solution fetches share prices from a public API ([twelvedata.com](https://support.twelvedata.com/)) and stores it on Azure AI Search to support RAG (Retrieval Augmented Generation).
 2. AI Agent functionality to letting the AI model autonomously perform tasks, like sending out messages without user intervention, depending on the inquiry and AI response.
+3. **NEW** : Introduce [Model Context Protocol](https://modelcontextprotocol.io/introduction) (MCP), introduce an agent and complex workflows on top of LLMs. Go beyound general knowledge-based question-answering pattern and enhance AI LLM agent connect to search engines, databases and file systems.
 
 - **NOTE!!!** *development ongoing*
 ## Why RAG
