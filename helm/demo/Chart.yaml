@@ -1,0 +1,5 @@
+apiVersion: v2
+name: findata
+description: A Helm chart for deploying the findata AI chatbot
+version: 1.0.0
+appVersion: '@appVersion@'

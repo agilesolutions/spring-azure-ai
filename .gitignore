@@ -1,0 +1,21 @@
+/.idea/
+/out/
+/build/
+!/build/libs/application.jar
+/.gradle/
+!/gradle/wrapper/gradle-wrapper.jar
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# lock files
+
+*.terraform.lock.*
+
+# Crash log files
+crash.log
+

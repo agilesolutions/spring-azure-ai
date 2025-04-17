@@ -1,0 +1,105 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  dockerRegistryServiceConnection: 'dockerhub' # name of ACR service connection
+  imageRepository: 'agilesolutions/findata' # name of image repository
+  containerRegistry: 'Docker Hub' # name of Azure container registry
+  imagePullSecret: 'github-auth'
+  tag: '$(Build.BuildId)'
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Build
+    displayName: Build stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: JavaToolInstaller@0
+            inputs:
+              versionSpec: '21'
+              jdkArchitectureOption: 'x64'
+              jdkSourceOption: 'PreInstalled'
+
+          - script: echo "Setting JAVA_HOME to JDK 17 location."
+            displayName: 'Set JAVA_HOME to JDK 21'
+
+          - task: Cache@2
+            displayName: configure gradle caching
+            continueOnError: true
+            inputs:
+              key: 'gradle | "$(Agent.OS)" $(Pipeline.Workspace)/build.gradle'
+              restoreKeys: |
+                gradle | "$(Agent.OS)"
+                gradle
+              path: '$(Pipeline.Workspace)/.gradle'
+
+          - task: Gradle@2
+            displayName: 'build service'
+            inputs:
+              gradleWrapperFile: 'gradlew'
+              workingDirectory: ''
+              gradleOptions: '-Dorg.gradle.daemon=false'
+              tasks: '--info build -x test'
+
+          - task: Docker@2
+            displayName: Build and push image
+            inputs:
+              containerRegistry: $(dockerRegistryServiceConnection)
+              repository: $(imageRepository)
+              command: buildAndPush
+              Dockerfile: Dockerfile
+              tags: $(Build.BuildId)
+
+          - publish: manifests
+            artifact: manifests
+
+  - stage: Deploy
+    displayName: Deploy stage
+    dependsOn: Build
+
+    jobs:
+      - deployment: Deploy
+        displayName: Deploy
+        pool:
+          vmImage: $(vmImageName)
+        environment: 'findata'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - bash: 'sed -i -e ''s/#{VERSION}#/$(Build.BuildId)/g'' $(Pipeline.Workspace)/manifests/Deployment-and-LoadBalancer-Service.yml'
+                  displayName: 'Replace versioning'
+
+                - task: KubernetesManifest@1
+                  displayName: Create imagePullSecret
+                  inputs:
+                    action: createSecret
+                    connectionType: 'azureResourceManager'
+                    azureSubscriptionConnection: 'aks-feature-flag-sc'
+                    azureResourceGroup: 'aks-cluster-template_rg001'
+                    kubernetesCluster: 'aks101cluster'
+                    secretType: 'dockerRegistry'
+                    secretName: 'my-acr-secret'
+                    dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+
+                - task: KubernetesManifest@1
+                  displayName: Deploy to Kubernetes cluster
+                  inputs:
+                    action: deploy
+                    connectionType: 'azureResourceManager'
+                    azureSubscriptionConnection: 'aks-feature-flag-sc'
+                    azureResourceGroup: 'aks-cluster-template_rg001'
+                    kubernetesCluster: 'aks101cluster'
+                    manifests: $(Pipeline.Workspace)/manifests/Deployment-and-LoadBalancer-Service.yml
+                    imagePullSecrets: 'my-acr-secret'
+                    containers: $(imageRepository):$(Build.BuildId)
+                    # strategic merge patches applied
+                    arguments: >
+                      --type='merge' -p='{"spec": {"template": {"metadata": {"annotations": {"kubernetes.io/change-cause": "Updated to build $(Build.BuildId)"}}}}}'

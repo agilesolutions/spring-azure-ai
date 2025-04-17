@@ -1,0 +1,47 @@
+server:
+  port: 80
+
+com:
+  agilesolutions:
+    evaluation:
+      model: bespoke-minicheck
+
+spring:
+  ai:
+    ollama:
+      embedding:
+        options:
+          model: nomic-embed-text
+      init:
+        chat:
+          include: false
+        pull-model-strategy: WHEN_MISSING
+    chat:
+      options:
+        model: phi3
+      client:
+        enabled: false
+    openai:
+      api-key: demo
+      embedding:
+        options:
+          model: text-embedding-3-small
+
+azure:
+  application-insights:
+    instrumentation-key: ${AZURE_APP_INSIGHTS_KEY}
+logging:
+  level:
+    root: INFO
+    com.agilesolutions.chatbot: DEBUG
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true

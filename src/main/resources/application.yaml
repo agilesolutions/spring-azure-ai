@@ -1,0 +1,50 @@
+server:
+  port: 80
+
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+
+azure:
+  ai:
+    vectorstore:
+      azure:
+        url: <COPY terraform output >
+        api-key: <COPY terraform output >
+        initialize-schema: true
+  openai:
+    api:
+      key: <COPY terraform output openai_primary_key>
+      endpoint: <COPY terraform output openai_endpoint>
+      deployment:
+        model:
+          id: <COPY terraform output openai_model>
+  application-insights:
+    instrumentation-key: <COPY terraform output instrumentation_key>
+
+logging:
+  level:
+    root: INFO
+    com.agilesolutions.chatbot: DEBUG
+    org.springframework.ai: DEBUG
+
+twilio:
+  account:
+    sid: <YOUR_ACCOUNT_SID>
+  auth:
+    token: <YOUR_AUTH_TOKEN>
+  whatsapp:
+    number: whatsapp:+04<MY-SWISS-NUMBER>
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true

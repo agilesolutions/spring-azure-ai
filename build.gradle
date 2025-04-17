@@ -1,0 +1,137 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.agilesolutions'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+
+}
+
+ext {
+    commit = commit()
+    branchName = branchName()
+    set('springAiVersion', "1.0.0-M6")
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+    // Bill of Materials
+    implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
+    implementation platform("io.modelcontextprotocol.sdk:mcp-bom:0.8.1")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
+    implementation 'org.springframework.ai:spring-ai-azure-openai-spring-boot-starter'
+    implementation 'com.h2database:h2:1.4.200'
+    // Whatsup notification
+    implementation 'com.twilio.sdk:twilio:10.4.1'
+    // vector store, Azure AI search
+    implementation 'org.springframework.ai:spring-ai-azure-store'
+    // readers
+    implementation 'org.springframework.ai:spring-ai-markdown-document-reader'
+    // embeddings
+    implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter'
+    implementation 'org.springframework.ai:spring-ai-starter-model-azure-openai'
+
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'com.microsoft.azure:applicationinsights-spring-boot-starter:2.6.4'
+    implementation 'com.azure.spring:spring-cloud-azure-starter-keyvault-secrets:5.17.1'
+    implementation 'org.slf4j:slf4j-api:2.0.13'
+    implementation 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    // tests
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.ai:spring-ai-spring-boot-testcontainers'
+    testImplementation "org.testcontainers:chromadb:1.20.0"
+    testImplementation 'org.testcontainers:ollama:1.20.0'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+String commit() {
+    return 'git rev-parse HEAD'.execute().text.trim()
+}
+
+String branchName() {
+    return hasProperty('branch.name') ? property('branch.name') : 'git branch --show-current'.execute().text.trim()
+}
+
+task copyAppInsightsAgent(type: Copy) {
+    from "${rootDir}/libs/applicationinsights-agent.jar"
+    into "${buildDir}/libs"
+}
+
+task generateHelmChart(type: Copy) {
+    inputs.dir('helm/demo')
+    inputs.file('build.gradle')
+    from('helm') {
+        include 'demo/**'
+        filter(ReplaceTokens, tokens: [appVersion: version])
+    }
+    into('build')
+
+}
+
+bootJar {
+
+    archiveFileName = './application.jar'
+
+    manifest{
+        attributes(
+                'Built-by'          : System.properties['user.name'],
+                'Build-Timestamp'   : java.time.Instant.now(),
+                'Build-Revision'    : commit,
+                'Build-Branch'      : branchName,
+                'Created-by'        : "Gradle ${gradle.gradleVersion}",
+                'Build-JDK'         : "${System.properties['java.version']} ${System.properties['java.vendor']} ${System.properties['java.vm.version']}",
+                'Build-OS'          : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
+        )
+
+    }
+
+    dependsOn copyAppInsightsAgent
+
+}
+
+task dockerBuild(type: Exec) {
+    commandLine 'docker', 'build', '-t', "agilesolutions/k8sdemo:${version}", '.'
+}
+
+task dockerPush(type: Exec) {
+    commandLine 'docker', 'push', "agilesolutions/k8sdemo:${version}"
+}
+
+
+task release(type: GradleBuild) {
+    tasks = ['clean', 'build', 'dockerBuild', 'generateHelmChart', 'helmDeploy']
+}
+test.dependsOn generateHelmChart
+compileTestJava.dependsOn generateHelmChart
+generateHelmChart.dependsOn bootJar, jar
